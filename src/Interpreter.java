@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.Scanner;
 
 public class Interpreter {
     //TODO: Ver como fazer pra receber as infos
@@ -9,8 +8,6 @@ public class Interpreter {
         int pPrograma = 0;
 
         for(int i = 0; i < source.size(); i++){
-            String str = source.get(i);
-            pPrograma = i;
             switch (source.get(i)) {
                 case ">":
                     pDados++;
@@ -27,7 +24,6 @@ public class Interpreter {
                 case "[":
                     if (memoria[pDados] == 0) {
                         i++;
-                        //TODO: pilha para garantir  o "]" correspondente
                         while (!source.get(i).equals("]") || pPrograma > 0) {
                             if(source.get(i).equals("[")){
                                 pPrograma++;
@@ -42,7 +38,6 @@ public class Interpreter {
                 case "]":
                     if (memoria[pDados] != 0) {
                         i--;
-                        //TODO: pilha para garantir  o "[" correspondente
                         while (!source.get(i).equals("[") || pPrograma > 0){
                             if(source.get(i).equals("]")){
                                 pPrograma++;
@@ -59,13 +54,14 @@ public class Interpreter {
                     memoria[pDados] = 007;
                     break;
                 case ".":
-                    //TODO: escrever no arquivo OF
-                    WriterReader.fileWriter(Byte.toString(memoria[pDados]), "OutputFile");
+                    char aux = (char) memoria[pDados];
+                    System.out.println(aux);
+                    WriterReader.fileWriter(Character.toString(aux), "OutputFile", true);
                     break;
                 case "$":
-                    //TODO: ???
-                    for (int pos = 0; pos < memoria.length; pos++){
-                        WriterReader.fileWriter(Integer.toString(memoria[i]), "OutputFile");
+                    WriterReader.fileWriter("\n", "OutputFile",true);
+                    for (byte b : memoria) {
+                        WriterReader.fileWriter(Integer.toString(b), "OutputFile",true);
                     }
                     break;
             }

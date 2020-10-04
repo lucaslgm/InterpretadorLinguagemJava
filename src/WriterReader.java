@@ -52,13 +52,13 @@ public class WriterReader {
         }
     }
 
-    public static void fileWriter(String output, String nomeArquivo){
+    public static void fileWriter(String output, String nomeArquivo, boolean bool){
         String fileName = "./arquivos/"+nomeArquivo+".txt";
         File file = new File(fileName);
         FileWriter fileWriter;
         try{
             if(file.exists()){
-                fileWriter = new FileWriter(fileName, true);
+                fileWriter = new FileWriter(fileName, bool);
             }
             else {
                 fileWriter = new FileWriter(fileName);
