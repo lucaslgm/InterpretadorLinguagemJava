@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Interpreter {
@@ -6,6 +7,16 @@ public class Interpreter {
         byte[] memoria = new byte[1000];
         int pDados = 0;
         int pPrograma = 0;
+
+        int countInputFile = 0;
+        List<String> inputTXT = WriterReader.inputReader("./arquivos/InputFile.txt");
+        List<String> linesInputFile = new ArrayList<>();
+
+        for (String line : inputTXT){
+            for (int i = 0; i < line.length(); i++){
+                linesInputFile.add(line);
+            }
+        }
 
         for(int i = 0; i < source.size(); i++){
             switch (source.get(i)) {
@@ -50,12 +61,13 @@ public class Interpreter {
                     }
                     break;
                 case ",":
-                    //TODO: lê uma linha do arquivo IF e o armazena na posição apontada pelo ponteiro de dados
-                    memoria[pDados] = 007;
+                    int valueInputFile = Integer.parseInt(linesInputFile.get(countInputFile));
+                    memoria[pDados] = (byte) valueInputFile;
+                    countInputFile++;
                     break;
                 case ".":
                     char aux = (char) memoria[pDados];
-                    System.out.println(aux);
+                    System.out.print(aux);
                     WriterReader.fileWriter(Character.toString(aux), "OutputFile", true);
                     break;
                 case "$":
@@ -63,6 +75,8 @@ public class Interpreter {
                     for (byte b : memoria) {
                         WriterReader.fileWriter(Integer.toString(b), "OutputFile",true);
                     }
+                    break;
+                default:
                     break;
             }
         }
